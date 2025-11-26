@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian Holdings Group</title>
+  <style>
+    @font-face {
+      font-family: 'Book Antiqua';
+      src: url('assets/fonts/Book-Antiqua/bookantiqua.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'Book Antiqua';
+      src: url('assets/fonts/Book-Antiqua/bookantiqua_bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      /* COLOR VARIABLES */
+      --themeWhite: #FFFFFF;
+      --themeDarkGray: #2E2E2E;
+      --themeLightGray: #F4F4F4;
+      --themeGreenAccent: #7A9C9F;
+      --themeLightBlue: #4C7A92;
+      --themeDarkBlue: #1C3A4E;
+      
+      /* BACKGROUND VARIABLES */
+      --background1: url('assets/images/backgrounds/nature-4564618_1920.jpg');
+      --background2: url('assets/images/backgrounds/clouds-1835885_1920.jpg');
+
+      /* GLOBAL FONTS */
+      --primaryFont: 'Book Antiqua', serif;
+      
+      /* FONT SIZE VARIABLES */
+      --headingExtraLarge: 5.0rem;
+      --headingLarge: 3.5rem;
+      --headingMedium: 2.0rem;
+      --headingSmall: 1.2rem;
+      --paragraphBig: 1.25rem;
+      --paragraphSmall: 1.0rem;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--themeDarkBlue);
+    }
+
+    h1 {
+      font-family: var(--primaryFont);
+      font-size: var(--headingExtraLarge);
+      font-weight: 700;
+      letter-spacing: -3.5px;
+      line-height: 0.9;
+    }
+    h2 {
+      font-family: var(--primaryFont);
+      font-size: var(--headingLarge);
+      font-weight: 700;
+      letter-spacing: -2.5px;
+      line-height: 1.0;
+    }
+    h3 {
+      font-family: var(--primaryFont);
+      font-size: var(--headingMedium);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+    }
+    h4 {
+      font-family: var(--primaryFont);
+      font-size: var(--headingSmall);
+      font-weight: 700;
+      letter-spacing: 0px;
+    }
+    p {
+      font-family: var(--primaryFont);
+      font-weight: 300;
+    }
+    a {
+      font-family: var(--primaryFont);
+      font-weight: 300;
+    }
+    button {
+      font-family: var(--primaryFont);
+    }
+
+    /* HEADER */
+    .site-header {
+      font-family: var(--primaryFont);
+      background-color: color-mix(in srgb, var(--themeDarkBlue) 50%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: var(--themeLightGray);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-sizing: border-box;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .site-header.hidden {
+      transform: translateY(-100%);
+    }
+
+    .site-header img {
+      height: 45px;
+    }
+
+    .site-header ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .site-header ul li a {
+      text-decoration: none;
+      color: var(--themeWhite);
+      font-weight: 300;
+      text-transform: none;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .site-header ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--themeWhite);
+      transition: width 0.3s ease;
+    }
+
+    .site-header ul li a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background: var(--themeWhite);
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .site-header ul {
+        display: none;
+        flex-direction: column;
+        background-color: rgba(46, 46, 46, 0.9);
+        position: absolute;
+        top: 70px;
+        right: 5%;
+        width: 220px;
+        padding: 0;
+        border-radius: 4px;
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      .site-header ul.show {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+        animation: slideDown 0.3s ease forwards;
+      }
+
+      .site-header ul li {
+        margin: 0;
+      }
+
+      .site-header ul li a {
+        display: block;
+        padding: 1rem 1.5rem;
+        transition: background-color 0.2s ease;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Remove underline by default in mobile */
+      .site-header ul li a::after {
+        width: 0;
+      }
+
+      /* Row highlight on hover */
+      .site-header ul li a:hover {
+        background-color: color-mix(in srgb, var(--themeWhite) 10%, transparent);
+      }
+
+      /* Underline only on hover for mobile */
+      .site-header ul li a:hover::after {
+        width: calc(100% - 3rem);
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FADE-IN ANIMATION */
+    .fade-in-element {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in-element.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered animation for feature cards */
+    .feature-card {
+      transition-delay: 0s;
+    }
+
+    .feature-card:nth-child(1) { transition-delay: 0.1s; }
+    .feature-card:nth-child(2) { transition-delay: 0.2s; }
+    .feature-card:nth-child(3) { transition-delay: 0.3s; }
+    .feature-card:nth-child(4) { transition-delay: 0.4s; }
+    .feature-card:nth-child(5) { transition-delay: 0.5s; }
+    .feature-card:nth-child(6) { transition-delay: 0.6s; }
+
+    /* SECTION 1 */
+    .section-1 {
+      min-height: 100vh;
+      background-image: var(--background1);
+      color: var(--themeLightGray);
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 5% 1%;
+    }
+
+    .section-1::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: color-mix(in srgb, var(--themeDarkBlue) 80%, transparent);
+      z-index: 1;
+    }
+
+    .section-1-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .section-1 h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .section-1 p {
+      font-size: var(--paragraphBig);
+    }
+
+    .section-1 button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--themeGreenAccent);
+      color: var(--themeWhite);
+      border: none;
+      border-radius: 25px;
+      font-size: var(--paragraphSmall);
+      cursor: pointer;
+      font-weight: 300;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button hover overlay */
+    .section-1 button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(46, 46, 46, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 25px;
+    }
+
+    .section-1 button:hover::after {
+      opacity: 1;
+    }
+
+    .section-2 {
+      background-color: var(--themeLightBlue);
+      color: var(--themeLightGray);
+      padding: 8rem 5%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-2-content {
+      max-width: 800px;
+      text-align: left;
+      position: relative;
+      z-index: 3;
+    }
+
+    .section-2 h2 {
+      margin-top: 0rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-2 p {
+      font-size: var(--paragraphBig);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .section-2 button {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--themeWhite);
+      color: var(--themeDarkGray);
+      border: none;
+      border-radius: 25px;
+      font-size: var(--paragraphSmall);
+      cursor: pointer;
+      font-weight: 300;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button hover overlay */
+    .section-2 button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(46, 46, 46, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 25px;
+    }
+
+    .section-2 button:hover::after {
+      opacity: 1;
+    }
+
+    /* SECTION 3 */
+    .section-3 {
+      background-color: var(--themeWhite);
+      padding: 6rem 5%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-3-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .section-3 h2 {
+      text-align: center;
+      margin-top: 0rem;
+      margin-bottom: 2rem;
+      color: var(--themeDarkGray);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--themeWhite);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(20px);
+      /* Scroll animation properties */
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:not(:hover) {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card h3 {
+      color: var(--themeDarkBlue);
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      font-weight: 300;
+      font-size: var(--paragraphSmall);
+      color: var(--themeDarkGray);
+      margin: 0;
+    }
+
+    /* SECTION 4 - OUR TEAM */
+    .section-4 {
+      background-color: var(--themeDarkBlue);
+      color: var(--themeLightGray);
+      padding: 6rem 5%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-4-content {
+      max-width: 800px;
+      text-align: left;
+      position: relative;
+      z-index: 3;
+    }
+
+    .section-4 h2 {
+      margin-top: 0rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-4 p {
+      font-size: var(--paragraphBig);
+      margin-bottom: 2rem;
+    }
+
+    .section-4 button {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--themeWhite);
+      color: var(--themeDarkGray);
+      border: none;
+      border-radius: 25px;
+      font-size: var(--paragraphSmall);
+      cursor: pointer;
+      font-weight: 300;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button hover overlay */
+    .section-4 button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(46, 46, 46, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 25px;
+    }
+
+    .section-4 button:hover::after {
+      opacity: 1;
+    }
+
+    /* SECTION 5 - CONTACT US */
+    .section-5 {
+      background-color: var(--themeWhite);
+      color: var(--themeDarkGray);
+      padding: 6rem 5%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-5-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .section-5 h2 {
+      margin-top: 0rem;
+      margin-bottom: 2rem;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: var(--headingMedium);
+      letter-spacing: -2px;
+      margin-top: 0rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-info p {
+      font-size: var(--paragraphBig);
+      margin-bottom: 2rem;
+    }
+
+    .contact-form {
+      background: var(--themeLightGray);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+      color: var(--themeDarkGray);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: var(--paragraphSmall);
+      font-family: var(--primaryFont);
+      box-sizing: border-box;
+      line-height: 1.5;
+      height: auto;
+      min-height: 48px;
+      padding-top: 0.9rem;
+      padding-bottom: 0.9rem;
+    }
+
+    .form-group textarea {
+      height: 120px;
+      resize: vertical;
+      min-height: 120px;
+      padding: 1rem;
+    }
+
+    .name-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .required::after {
+      content: " *";
+      color: #e74c3c;
+    }
+
+    .submit-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--themeDarkBlue);
+      color: var(--themeWhite);
+      border: none;
+      border-radius: 25px;
+      font-size: var(--paragraphSmall);
+      cursor: pointer;
+      font-weight: 300;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(46, 46, 46, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 25px;
+    }
+
+    .submit-btn:hover::after {
+      opacity: 1;
+    }
+
+    /* Responsive design for section 5 */
+    @media (max-width: 768px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .name-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .site-footer {
+      background-color: var(--themeDarkBlue);
+      color: var(--themeWhite);
+      padding: 3rem 5% 1.5rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .footer-column h4 {
+      margin-top: 0rem;
+      margin-bottom: 1.5rem;
+      color: var(--themeWhite);
+    }
+
+    .footer-column p, .footer-column a {
+      font-weight: 300;
+      font-size: paragraphSmall;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.8rem;
+      display: block;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--themeWhite);
+    }
+
+    .footer-logo {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-logo img {
+      height: 40px;
+      margin-bottom: 0rem;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid color-mix(in srgb, var(--themeWhite) 10%, transparent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: paragraphSmall;
+      color: color-mix(in srgb, var(--themeWhite) 50%, transparent);
+      font-family: var(--primaryFont);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--themeWhite);
+    }
+
+    /* Responsive footer */
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div>
+      <a href="index.html">
+        <img src="assets/images/branding/Merdian+Holdings+Group+White.png" alt="Meridian Holdings Group Logo" />
+      </a>
+    </div>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="navLinks">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Our Team</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </header>
+
+  <section class="section-1" id="section1">
+    <div class="section-1-content">
+      <h1 class="fade-in-element">Turning cash value into opportunity</h1>
+      <p class="fade-in-element">Institutional-grade, short-term notes backed by the cash value of high-quality life insurance policies.</p>
+      <button class="fade-in-element">Learn More</button>
+    </div>
+  </section>
+
+  <section class="section-2" id="section2">
+    <div class="section-2-content">
+      <h2 class="fade-in-element">World-class asset backing, liquidity, and safety at a premium price</h2>
+      <p class="fade-in-element">
+        Meridian Holdings provides a structured investment note fully secured by the cash values of select life insurance policies. We bridge the gap between policyholders and institutional investors through a transparent, collateral-backed structure.
+      </p>
+      <p class="fade-in-element">
+        Our approach expedites the funding process while providing the capital markets with a high-quality investment vehicle backed by the cash values of life insurance policies and subordinated by the equity in our company. Our notes will have an anticipated tenure of 1-3 years, a targeted rating of AA by at least one major NRSRO, and offer investors a very attractive return.
+      </p>
+      <p class="fade-in-element">
+        Given our relationships with a national network of agents and brokers, we can source large volumes of quality collateral.
+      </p>
+      <button class="fade-in-element">Learn More About Our Bond Offering</button>
+    </div>
+  </section>
+
+  <section class="section-3" id="section3">
+    <div class="section-3-content">
+      <h2 class="fade-in-element">Our Advantages</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>High Liquidity</h3>
+          <p>Immediate access to asset values ensures investors can be repaid at any time.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Safety & Security</h3>
+          <p>100% principal and interest backed, with strong guarantees from top-rated carriers.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Premium Returns</h3>
+          <p>Competitive yields that outperform equivalent market offerings.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Guaranteed Interest</h3>
+          <p>Reliable income stream supported by the cash values of life insurance policies.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Pristine Collateral</h3>
+          <p>Only the strongest-performing policies from highly rated insurers are included in the portfolio.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Smart Structure</h3>
+          <p>Investor notes are protected by a first lien and subordinated equity, creating layered security and transparency.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-4" id="section4">
+    <div class="section-4-content">
+      <h2 class="fade-in-element">Our Team</h2>
+      <p class="fade-in-element">
+        At Meridian Holdings, our team brings together deep expertise in structured finance, compliance, and asset management. With decades of combined experience in the life insurance and capital markets industries, we are committed to building secure, transparent, and innovative investment solutions. Each member contributes specialized knowledge, from executive leadership and financial structuring to compliance oversight and analytical support, ensuring that our investors benefit from a strong foundation of trust, integrity, and performance.
+      </p>
+      <button class="fade-in-element">Leadership Profiles</button>
+    </div>
+  </section>
+
+  <section class="section-5" id="section5">
+    <div class="section-5-content">
+      <h2 class="fade-in-element">Contact Us</h2>
+      <div class="contact-container">
+        <div class="contact-info fade-in-element">
+          <h3>Get In Touch</h3>
+          <p>At Meridian Holdings, we value building strong relationships with our investors and partners. Whether you're seeking more information about our bond offering, exploring collaboration opportunities, or simply want to learn more about our approach, our team is here to provide clarity and support. Reach out today to discover how we can help turn cash value into opportunity.</p>
+          <p>We look forward to working with investors who identify the value and the opportunity embedded in this extremely safe and stable asset class.</p>
+        </div>
+        <div class="contact-form fade-in-element">
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name" class="required">Name</label>
+              <div class="name-fields">
+                <div>
+                  <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                </div>
+                <div>
+                  <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" class="required">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="message" class="required">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn fade-in-element">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" id="footer">
+    <div class="footer-content">
+      <div class="footer-column footer-logo">
+        <a href="#" style="display: block;">
+          <img src="assets/images/branding/Merdian+Holdings+Group+White.png" alt="Meridian Holdings Group Logo" style="width: 100%; height: auto; max-width: 200px;" />
+        </a>
+        <p>Turning cash value into opportunity through institutional-grade, short-term notes backed by high-quality life insurance policies.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Our Team</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-column">
+        <h4>Services</h4>
+        <a href="#">Structured Notes</a>
+        <a href="#">Life Insurance Backing</a>
+        <a href="#">Investment Opportunities</a>
+        <a href="#">Portfolio Management</a>
+      </div>
+      <div class="footer-column">
+        <h4>Contact Info</h4>
+        <p>2929 W. Navigator, Suite 300</p>
+        <p>Meridian, ID 83642</p>
+        <a href="#">barry@meridianholdings.com</a>
+        <a href="#">+1 (555) 123-4567</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2025 Meridian Holdings Group. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Disclosures</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-in for individual elements
+    const fadeElements = document.querySelectorAll('.fade-in-element');
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    fadeElements.forEach(el => observer.observe(el));
+    featureCards.forEach(el => observer.observe(el));
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+      menuToggle.classList.toggle('open');
+    });
+
+    // Form submission handling
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Here you would typically send the form data to a server
+      alert('Thank you for your message. We will get back to you soon!');
+      contactForm.reset();
+    });
+
+    // Hide/show header on scroll
+    let lastScrollTop = 0;
+    const header = document.querySelector('.site-header');
+    const scrollThreshold = 100; // Minimum scroll before hiding header
+
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+        // Scrolling down - hide header
+        header.classList.add('hidden');
+      } else {
+        // Scrolling up - show header
+        header.classList.remove('hidden');
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+  </script>
+
+</body>
+</html>
