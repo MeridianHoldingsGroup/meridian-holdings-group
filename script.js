@@ -38,17 +38,6 @@ if (menuToggle && navLinks) {
     });
 }
 
-// Form submission handling - only if contact form exists on page
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Here you would typically send the form data to a server
-        alert('Thank you for your message. We will get back to you soon!');
-        contactForm.reset();
-    });
-}
-
 // Hide/show header on scroll
 let lastScrollTop = 0;
 const header = document.querySelector('.site-header');
@@ -68,4 +57,15 @@ if (header) {
         
         lastScrollTop = scrollTop;
     });
+}
+
+// Universal smooth scroll function
+function smoothScrollTo(targetId) {
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+        targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
 }
