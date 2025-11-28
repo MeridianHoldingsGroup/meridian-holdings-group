@@ -1363,7 +1363,7 @@ button {
 .team-member-hero {
     background-color: var(--themeWhite);
     color: var(--themeDarkBlue);
-    padding: 8rem 5% 4rem;
+    padding: 7rem 5% 4rem;
     position: relative;
     z-index: 2;
     min-height: 100vh;
@@ -1704,7 +1704,7 @@ button {
 }
 .legal-content {
     background: var(--themeWhite);
-    padding: 8rem 5% 4rem;
+    padding: 7rem 5% 4rem;
 }
 .legal-content h2 {
     color: var(--themeDarkBlue);
