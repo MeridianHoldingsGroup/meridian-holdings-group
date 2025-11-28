@@ -107,33 +107,37 @@
                         <p>We look forward to working with investors who identify the value and the opportunity embedded in this extremely safe and stable asset class.</p>
                     </div>
                     <div class="contact-form fade-in-element">
-                        <form id="contactForm">
+                        <form data-web3form>
+                            <input type="hidden" name="access_key" value="86e7d290-311d-4485-9264-8c391a100a01">
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                             <div class="form-group">
                                 <label class="required">Name</label>
                                 <div class="name-fields">
                                     <div>
-                                        <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                                        <input type="text" name="firstName" placeholder="First Name" required>
                                     </div>
                                     <div>
-                                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                                        <input type="text" name="lastName" placeholder="Last Name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="required">Email</label>
-                                <input type="email" id="email" name="email" required>
+                                <label class="required">Email</label>
+                                <input type="email" name="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="message" class="required">Message</label>
-                                <textarea id="message" name="message" required></textarea>
+                                <label class="required">Message</label>
+                                <textarea name="message" required></textarea>
                             </div>
-                            <button type="submit" class="submit-btn btn btn-dark-blue fade-in-element"><span>Submit</span></button>
+                            <button type="submit" class="submit-btn btn btn-dark-blue fade-in-element">
+                                <span>Submit</span>
+                            </button>
+                            <div class="form-result"></div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
-        
         <footer class="site-footer" id="footer">
             <div class="footer-content">
                 <div class="footer-column footer-logo">

@@ -631,6 +631,18 @@ button {
     border: 1px solid color-mix(in srgb, var(--themeBlack) 5%, transparent);
 }
 
+.success-message {
+    color: #1C3A4E;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.error-message {
+    color: #B30000;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }

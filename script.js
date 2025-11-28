@@ -30,7 +30,6 @@ if (menuToggle && navLinks) {
         } else {
             // No fade when closing
             menuToggle.style.transition = 'none';
-            // Small delay to allow the transition to be removed
             setTimeout(() => {
                 menuToggle.style.transition = '';
             }, 10);
@@ -41,17 +40,15 @@ if (menuToggle && navLinks) {
 // Hide/show header on scroll
 let lastScrollTop = 0;
 const header = document.querySelector('.site-header');
-const scrollThreshold = 100; // Minimum scroll before hiding header
+const scrollThreshold = 100;
 
 if (header) {
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-            // Scrolling down - hide header
             header.classList.add('hidden');
         } else {
-            // Scrolling up - show header
             header.classList.remove('hidden');
         }
         
@@ -69,3 +66,68 @@ function smoothScrollTo(targetId) {
         });
     }
 }
+
+// AJAX FORM HANDLING (Web3Forms with Custom Formatting)
+document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form[data-web3form]");
+
+    forms.forEach(form => {
+        const resultDiv = form.querySelector(".form-result");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector("button[type='submit']");
+            const originalText = submitBtn.innerHTML;
+
+            const firstName = formData.get('firstName') || '';
+            const lastName = formData.get('lastName') || '';
+            const email = formData.get('email') || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            formData.set('subject', `New inquiry from ${fullName} - Meridian Holdings Group`);
+            
+            formData.set('from_name', fullName);
+            
+            formData.set('replyto', email);
+
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "<span>Sending...</span>";
+
+            try {
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                });
+
+                const data = await response.json();
+
+                if (response.status === 200) {
+                    resultDiv.innerHTML = "<p class='success-message'>Thank you! Your message has been sent successfully.</p>";
+                    form.reset();
+                    
+                    setTimeout(() => {
+                        resultDiv.innerHTML = "";
+                    }, 5000);
+                } else {
+                    resultDiv.innerHTML = "<p class='error-message'>Something went wrong. Please try again.</p>";
+                }
+
+            } catch (err) {
+                resultDiv.innerHTML = "<p class='error-message'>Unable to send message. Please try again later.</p>";
+            }
+
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        });
+    });
+});
