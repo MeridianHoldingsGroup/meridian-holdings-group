@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Inject secrets into HTML
+        env:
+          WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+        run: |
+          sed -i "s/{{WEB3FORMS_ACCESS_KEY}}/${WEB3FORMS_KEY}/g" index.html
+          sed -i "s/{{WEB3FORMS_ACCESS_KEY}}/${WEB3FORMS_KEY}/g" contact.html
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
